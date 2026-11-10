@@ -1,6 +1,7 @@
 # Paper Viewer
 
 Read, highlight, and follow citations in research PDFs inside VS Code.
+Highlights and notes stay with the PDF and work with macOS Preview.
 
 ## Install locally
 
@@ -30,13 +31,11 @@ is selected.
 - **Paper Viewer: Text Highlight Thickness** controls the height of new
   text highlights. It defaults to 80% of the selected text height.
 - Click an existing highlight and use its remove button or press Delete.
-  Save with **Command–S** or **Ctrl–S**. Highlights are standard PDF
-  annotations that can also be edited in Preview.
+  Save with **Command–S** or **Ctrl–S**.
 - Press **S** on selected text, a selected highlight, or immediately after
   making a highlight to attach a pop-up note. The **Notes** button also works
   with selected text or a highlight. Click the note icon to reopen it.
-  With no selection, **Notes** opens the sidebar. In Preview, saved notes
-  appear under **View → Highlights and Notes**.
+  With no selection, **Notes** opens the sidebar.
 - Use **Draw** and **Add or edit images** for other annotations.
 - Click a linked citation to open its arXiv page, DOI, or paper URL in your
   browser. **Option-click** or **Alt-click** to jump to the bibliography.
@@ -46,6 +45,16 @@ is selected.
 Citation hopping supports named LaTeX bibliography links. For a recognizable
 title without a link, it queries arXiv when you click and opens only a unique,
 exact title match. Embedded figures and section links follow PDF navigation.
+
+## macOS Preview compatibility
+
+Paper Viewer saves highlights and notes as annotations inside the PDF. Save
+the file in VS Code, then open that same PDF in Preview. Choose
+**View → Highlights and Notes** to see saved highlights and their notes.
+
+You can also open a PDF annotated in Preview, remove its highlights, and
+edit its notes in Paper Viewer. Save the PDF before switching between apps
+so the other viewer can load the latest changes.
 
 ## Develop
 
