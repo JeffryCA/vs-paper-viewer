@@ -1,5 +1,13 @@
 # Changelog
 
+## Paper Viewer 0.0.1
+
+- Add Preview-style highlights, adjustable thickness, and notes anchored to text.
+- Open linked citations and look up unlinked titles on arXiv.
+- Simplify the highlight cursor and deletion feedback.
+
+## Upstream history
+
 ## 2.1.0
 
 - Renamed to **PDF Markup** (`maxhoelper.pdf-markup`) for the VS Code Marketplace, with a new icon

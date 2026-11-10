@@ -16,3 +16,172 @@ body {
   padding: 0;
   overflow: hidden;
 }
+
+/* Keep markup controls quiet until explicitly opened. */
+#editorHighlightParamsToolbar {
+  display: none !important;
+}
+
+.textLayer.highlighting {
+  --editorHighlight-editing-cursor: text;
+  --editorFreeHighlight-editing-cursor: pointer;
+}
+
+#editorFreeText {
+  display: none !important;
+}
+
+body #commentManagerDialog {
+  --dialog-bg-color: light-dark(#fff, #262626);
+  --dialog-border-color: light-dark(#d4d4d4, #525252);
+  --text-primary-color: light-dark(#242424, #ededed);
+  --textarea-bg-color: light-dark(#fafafa, #1e1e1e);
+  --textarea-fg-color: var(--text-primary-color);
+  --textarea-border-color: var(--dialog-border-color);
+  --focus-ring-outline: 1px solid light-dark(#707070, #a3a3a3);
+  --hover-filter: brightness(0.94);
+  width: 252px;
+  padding: 10px;
+}
+
+body:is(.vscode-dark, .vscode-high-contrast):not(.vscode-high-contrast-light) #commentManagerDialog {
+  color-scheme: dark;
+}
+
+body:is(.vscode-light, .vscode-high-contrast-light) #commentManagerDialog {
+  color-scheme: light;
+}
+
+body #commentManagerDialog::backdrop {
+  background: rgb(0 0 0 / 0.08);
+}
+
+body #commentManagerDialog .mainContainer {
+  gap: 8px;
+}
+
+body #commentManagerDialog .mainContainer #commentManagerToolbar {
+  height: auto;
+}
+
+body #commentManagerDialog .mainContainer .dialogButtonsGroup {
+  gap: 4px;
+}
+
+body #commentManagerDialog .mainContainer :is(.primaryButton, .secondaryButton) {
+  min-height: 26px;
+  padding: 3px 10px;
+  border-color: transparent;
+}
+
+body #commentManagerDialog .primaryButton {
+  background: light-dark(#292929, #e8e8e8);
+  color: light-dark(#fff, #202020);
+}
+
+body #commentManagerDialog .secondaryButton {
+  background: transparent;
+  color: inherit;
+}
+
+body #commentManagerDialog .secondaryButton:hover {
+  background: light-dark(#f0f0f0, #383838);
+}
+
+body .commentPopup {
+  width: max-content;
+  min-width: 0;
+  max-width: min(280px, calc(100vw - 16px));
+  padding: 6px 8px;
+  gap: 4px;
+}
+
+body .commentPopup:not(.selected) :is(.commentPopupTop, hr) {
+  display: none;
+}
+
+body .commentPopupText > * {
+  overflow-wrap: anywhere;
+}
+
+body #commentManagerDialog .mainContainer #commentManagerTextInput {
+  min-height: 64px;
+  margin-bottom: 0;
+  padding: 6px 8px;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+body .commentPopup .commentPopupText,
+body :is(.commentPopupText, .sidebarCommentText .richText) > * {
+  font-size: 13px;
+}
+
+#editorHighlight {
+  display: flex;
+  align-items: center;
+  /* PDF.js gives single-button groups a square slot. Reserve space for both controls. */
+  aspect-ratio: auto;
+}
+
+#editorHighlightButton {
+  width: auto;
+}
+
+.paper-highlight-colors {
+  position: relative;
+  display: flex;
+}
+
+.paper-color-toggle,
+.paper-color-palette button {
+  appearance: none;
+  color: var(--toolbar-icon-bg-color, currentColor);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 3px 4px;
+}
+
+.paper-color-toggle:hover,
+.paper-color-palette button:hover,
+.paper-color-palette button[aria-pressed="true"] {
+  border-color: var(--vscode-focusBorder, GrayText);
+}
+
+.paper-color-toggle > span,
+.paper-color-palette button::before {
+  content: "";
+  display: block;
+  inline-size: 10px;
+  block-size: 10px;
+  border-radius: 50%;
+  background: var(--highlight-color);
+  border: 1px solid #0005;
+}
+
+.paper-color-palette {
+  position: absolute;
+  inset-block-start: calc(100% + 6px);
+  inset-inline-end: 0;
+  z-index: 10;
+  display: flex;
+  gap: 2px;
+  padding: 4px;
+  border: 1px solid var(--vscode-widget-border, #8888);
+  border-radius: 6px;
+  background: var(--vscode-editorWidget-background, Canvas);
+  box-shadow: 0 2px 8px #0003;
+}
+
+.paper-color-palette[hidden] {
+  display: none;
+}
+
+.annotationEditorLayer.paper-highlight-hit-test .highlightEditor .internal {
+  pointer-events: auto !important;
+}

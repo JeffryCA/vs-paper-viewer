@@ -7,3 +7,11 @@ tsconfig.json
 .claude/**
 .vscode-test/**
 images/**
+
+tests/**
+**/.DS_Store
+**/.env*
+**/.npmrc
+**/*.key
+**/*.pem
+**/*.pdf

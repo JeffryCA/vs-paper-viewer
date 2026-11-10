@@ -1,9 +1,9 @@
 {
-  "name": "pdf-markup",
-  "displayName": "PDF Markup",
-  "description": "Annotate PDFs right in VS Code: highlight, draw, add text and images, and save them into the file.",
-  "version": "2.1.0",
-  "publisher": "maxhoelper",
+  "name": "paper-viewer",
+  "displayName": "Paper Viewer",
+  "description": "Read and annotate research papers in VS Code.",
+  "version": "0.0.1",
+  "publisher": "jeffryca",
   "license": "MIT",
   "engines": {
     "vscode": "^1.80.0"
@@ -23,25 +23,16 @@
     "notes"
   ],
   "icon": "icon.png",
-  "galleryBanner": {
-    "color": "#1F2A44",
-    "theme": "dark"
-  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/maxhoelper/vscode-pdf-editor.git"
+    "url": "https://github.com/JeffryCA/vs-paper-viewer.git"
   },
   "main": "./out/extension.js",
   "contributes": {
-    "capabilities": {
-      "untrustedWorkspaces": {
-        "supported": true
-      }
-    },
     "customEditors": [
       {
-        "viewType": "pdfMarkup.editor",
-        "displayName": "PDF Markup",
+        "viewType": "paperViewer.editor",
+        "displayName": "Paper Viewer",
         "selector": [
           {
             "filenamePattern": "*.pdf"
@@ -52,9 +43,9 @@
     ],
     "configuration": {
       "type": "object",
-      "title": "PDF Markup",
+      "title": "Paper Viewer",
       "properties": {
-        "pdf-markup.default.cursor": {
+        "paper-viewer.default.cursor": {
           "markdownDescription": "The default cursor tool.",
           "type": "string",
           "default": "select",
@@ -63,18 +54,18 @@
             "hand"
           ]
         },
-        "pdf-markup.default.scale": {
+        "paper-viewer.default.scale": {
           "markdownDescription": "The default zoom level. Allowed values are `auto`, `page-actual`, `page-fit`, `page-width`, and 1-based scale values. (`1.0` means 100%)",
           "type": "string",
           "default": "auto",
           "pattern": "^(\\d+(?:\\.\\d+)?|auto|page-actual|page-fit|page-width)$"
         },
-        "pdf-markup.default.sidebar": {
+        "paper-viewer.default.sidebar": {
           "markdownDescription": "Show the sidebar on load.",
           "type": "boolean",
           "default": false
         },
-        "pdf-markup.default.scrollMode": {
+        "paper-viewer.default.scrollMode": {
           "markdownDescription": "The default scroll mode.",
           "type": "string",
           "default": "vertical",
@@ -84,7 +75,7 @@
             "wrapped"
           ]
         },
-        "pdf-markup.default.spreadMode": {
+        "paper-viewer.default.spreadMode": {
           "markdownDescription": "The default spread mode.",
           "type": "string",
           "default": "none",
@@ -93,15 +84,76 @@
             "odd",
             "even"
           ]
+        },
+        "paper-viewer.highlightColor": {
+          "description": "The color used for new text highlights.",
+          "type": "string",
+          "enum": [
+            "yellow",
+            "green",
+            "blue",
+            "pink",
+            "purple"
+          ],
+          "default": "yellow"
+        },
+        "paper-viewer.textHighlightThickness": {
+          "description": "Height of new text highlights as a percentage of the selected text's height.",
+          "type": "integer",
+          "minimum": 60,
+          "maximum": 100,
+          "default": 80
+        },
+        "paper-viewer.citations.enabled": {
+          "description": "Open resolved citations in your browser. Option-click (Alt-click) always jumps to the bibliography.",
+          "type": "boolean",
+          "default": true
+        },
+        "paper-viewer.citations.destination": {
+          "description": "Which arXiv page to open for a cited preprint.",
+          "type": "string",
+          "enum": [
+            "abstract",
+            "html",
+            "pdf"
+          ],
+          "default": "abstract"
         }
       }
-    }
+    },
+    "commands": [
+      {
+        "command": "paperViewer.highlightSelection",
+        "title": "Highlight Selection",
+        "category": "Paper Viewer"
+      },
+      {
+        "command": "paperViewer.toggleHighlightMode",
+        "title": "Toggle Highlight Mode",
+        "category": "Paper Viewer"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "paperViewer.highlightSelection",
+        "key": "ctrl+alt+h",
+        "mac": "ctrl+cmd+h",
+        "when": "activeCustomEditorId == paperViewer.editor && !inputFocus"
+      },
+      {
+        "command": "paperViewer.toggleHighlightMode",
+        "key": "ctrl+alt+shift+h",
+        "mac": "ctrl+cmd+shift+h",
+        "when": "activeCustomEditorId == paperViewer.editor && !inputFocus"
+      }
+    ]
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
     "compile": "tsc -p ./",
     "watch": "tsc -w -p ./",
-    "package": "vsce package"
+    "package": "vsce package",
+    "test": "node --test tests/*.test.mjs"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
@@ -113,8 +165,9 @@
     "ui",
     "workspace"
   ],
-  "bugs": {
-    "url": "https://github.com/maxhoelper/vscode-pdf-editor/issues"
-  },
-  "homepage": "https://github.com/maxhoelper/vscode-pdf-editor#readme"
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": true
+    }
+  }
 }

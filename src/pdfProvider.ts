@@ -1,9 +1,13 @@
 import * as vscode from 'vscode';
+import { lookupArxivTitle } from './arxivLookup';
 import { PdfDocument } from './pdfDocument';
 
 type WebviewMessage =
   | { type: 'ready' }
   | { type: 'edit' }
+  | { type: 'highlightColor'; color: string }
+  | { type: 'openCitation'; url: string }
+  | { type: 'lookupCitation'; requestId: number; url: string }
   | { type: 'save' }
   | { type: 'log'; message: string }
   | { type: 'data'; requestId: number; data: Uint8Array }
@@ -12,7 +16,7 @@ type WebviewMessage =
 export class PdfEditorProvider
   implements vscode.CustomEditorProvider<PdfDocument>
 {
-  public static readonly viewType = 'pdfMarkup.editor';
+  public static readonly viewType = 'paperViewer.editor';
 
   private readonly _onDidChangeCustomDocument = new vscode.EventEmitter<
     vscode.CustomDocumentContentChangeEvent<PdfDocument>
@@ -32,6 +36,26 @@ export class PdfEditorProvider
     private readonly log: vscode.LogOutputChannel
   ) {}
 
+  sendAction(type: 'highlightSelection' | 'toggleHighlightMode'): void {
+    for (const panel of this.webviews.values()) {
+      if (panel.active) {
+        panel.webview.postMessage({ type });
+        return;
+      }
+    }
+  }
+
+  updateHighlightSettings(): void {
+    for (const [document, panel] of this.webviews) {
+      const config = vscode.workspace.getConfiguration('paper-viewer', document.uri);
+      panel.webview.postMessage({
+        type: 'highlightSettings',
+        highlightColor: config.get<string>('highlightColor'),
+        textHighlightThickness: config.get<number>('textHighlightThickness'),
+      });
+    }
+  }
+
   async openCustomDocument(
     uri: vscode.Uri,
     context: vscode.CustomDocumentOpenContext
@@ -50,11 +74,11 @@ export class PdfEditorProvider
       enableScripts: true,
       localResourceRoots: [vscode.Uri.joinPath(this.extensionUri, 'lib')],
     };
-    panel.webview.html = await this.getHtml(panel.webview);
-
     panel.webview.onDidReceiveMessage((msg: WebviewMessage) =>
       this.onMessage(document, panel, msg)
     );
+
+    panel.webview.html = await this.getHtml(panel.webview, document.uri);
 
     // A restored backup has unsaved changes that are baked into its bytes.
     if (document.restoredFromBackup) {
@@ -84,6 +108,32 @@ export class PdfEditorProvider
         break;
       case 'edit':
         this._onDidChangeCustomDocument.fire({ document });
+        break;
+      case 'highlightColor':
+        if (['yellow', 'green', 'blue', 'pink', 'purple'].includes(msg.color)) {
+          void vscode.workspace.getConfiguration('paper-viewer', document.uri)
+            .update('highlightColor', msg.color, vscode.ConfigurationTarget.Global)
+            .then(undefined, (error) => this.log.error(String(error)));
+        }
+        break;
+      case 'openCitation':
+        if (typeof msg.url === 'string') {
+          try {
+            const url = new URL(msg.url);
+            if (['https:', 'http:'].includes(url.protocol) && !url.username && !url.password) {
+              void vscode.env.openExternal(vscode.Uri.parse(url.href));
+            }
+          } catch {
+            // Ignore malformed URLs.
+          }
+        }
+        break;
+      case 'lookupCitation':
+        if (typeof msg.url === 'string' && Number.isSafeInteger(msg.requestId)) {
+          void lookupArxivTitle(msg.url).then((xml) =>
+            panel.webview.postMessage({ type: 'citationLookupResult', requestId: msg.requestId, xml })
+          );
+        }
         break;
       case 'log':
         this.log.info(`${document.uri.path.split('/').pop()}: ${msg.message}`);
@@ -181,13 +231,19 @@ export class PdfEditorProvider
     };
   }
 
-  private async getHtml(webview: vscode.Webview): Promise<string> {
+  private async getHtml(webview: vscode.Webview, uri: vscode.Uri): Promise<string> {
     const lib = vscode.Uri.joinPath(this.extensionUri, 'lib');
     const res = (...p: string[]) =>
       webview.asWebviewUri(vscode.Uri.joinPath(lib, ...p)).toString();
 
-    const config = vscode.workspace.getConfiguration('pdf-markup');
+    const config = vscode.workspace.getConfiguration('paper-viewer', uri);
     const settings = {
+      highlightColor: config.get<string>('highlightColor'),
+      textHighlightThickness: config.get<number>('textHighlightThickness'),
+      citations: {
+        enabled: config.get<boolean>('citations.enabled'),
+        destination: config.get<string>('citations.destination'),
+      },
       pdfjsRoot: res('pdfjs', '/'),
       defaults: {
         cursor: config.get<string>('default.cursor'),
