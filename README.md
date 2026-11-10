@@ -5,6 +5,8 @@ Highlights and notes stay with the PDF and work with macOS Preview.
 
 ## Install locally
 
+Paper Viewer requires VS Code 1.123 or later.
+
 From the checkout, build and install the extension with Node.js 20 or later.
 
 ```sh
