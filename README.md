@@ -1,18 +1,21 @@
-# Paper Viewer
+# Paper Viewer – Academic PDF Reader
 
-Read, highlight, and follow citations in research PDFs inside VS Code.
-Highlights and notes stay with the PDF and work with macOS Preview.
+Paper Viewer is an academic PDF viewer for reading and annotating research
+papers in VS Code. Add highlights and sticky notes, follow citations to arXiv
+or DOI links, and open the same annotated PDF in macOS Preview.
 
-## Install locally
+## Install
 
 Paper Viewer requires VS Code 1.123 or later.
+
+Search for `jeffryca.paper-viewer` in the VS Code Extensions view.
 
 From the checkout, build and install the extension with Node.js 20 or later.
 
 ```sh
 npm ci
 npm run package
-code --install-extension paper-viewer-0.0.1.vsix --force
+code --install-extension paper-viewer-0.0.2.vsix --force
 ```
 
 You can also select the built file with **Extensions: Install from VSIX…** in
@@ -24,6 +27,7 @@ VS Code. If VS Code was open during installation, save your edits and run
 Open a PDF with **Reopen Editor With… → Paper Viewer** if another editor
 is selected.
 
+- Use **Command–P** or **Ctrl–P** for VS Code Quick Open while reading.
 - Click **Highlight** to toggle automatic highlighting when you select text.
   With the mode off, select text and press **H**, **Control–Command–H** on Mac or
   **Ctrl–Alt–H** on Windows and Linux. Add Shift to toggle the mode. Both
@@ -70,8 +74,8 @@ npm run package
 Press **F5** in VS Code to launch an Extension Development Host. The custom
 editor is in `src/pdfProvider.ts`. The webview glue is in `lib/main.mjs`.
 If updating PDF.js, reapply the annotation hooks in `lib/pdfjs/build/pdf.mjs`
-and `lib/pdfjs/build/pdf.worker.mjs`, plus the note dialog and Command Palette
-changes in `lib/pdfjs/web/viewer.mjs`.
+and `lib/pdfjs/build/pdf.worker.mjs`, plus the note dialog and keyboard
+shortcut changes in `lib/pdfjs/web/viewer.mjs`.
 
 ## Credits and licenses
 

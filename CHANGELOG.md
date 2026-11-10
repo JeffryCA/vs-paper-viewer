@@ -1,5 +1,10 @@
 # Changelog
 
+## Paper Viewer 0.0.2
+
+- Describe academic PDF reading, highlights, sticky notes, macOS Preview, and arXiv citations in the Marketplace listing.
+- Let VS Code handle Quick Open when the PDF viewer has focus.
+
 ## Paper Viewer 0.0.1
 
 - Add Preview-style highlights, adjustable thickness, and notes anchored to text.

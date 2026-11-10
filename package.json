@@ -1,8 +1,8 @@
 {
   "name": "paper-viewer",
-  "displayName": "Paper Viewer",
-  "description": "Read and annotate research papers in VS Code.",
-  "version": "0.0.1",
+  "displayName": "Paper Viewer – Academic PDF Reader",
+  "description": "Academic PDF viewer with highlights, sticky notes, macOS Preview compatibility, and arXiv and DOI citation navigation.",
+  "version": "0.0.2",
   "publisher": "jeffryca",
   "license": "MIT",
   "engines": {
@@ -10,17 +10,27 @@
   },
   "categories": [
     "Visualization",
-    "Other"
+    "Education"
   ],
   "keywords": [
     "pdf",
-    "viewer",
-    "annotate",
+    "pdf viewer",
+    "pdf reader",
+    "academic",
+    "academic pdf viewer",
+    "academic papers",
+    "research papers",
+    "research paper reader",
+    "pdf annotation",
     "annotation",
-    "highlight",
-    "markup",
-    "draw",
-    "notes"
+    "highlights",
+    "sticky notes",
+    "citations",
+    "citation navigation",
+    "bibliography",
+    "arxiv",
+    "doi",
+    "macos preview"
   ],
   "icon": "icon.png",
   "repository": {
