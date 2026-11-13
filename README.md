@@ -1,33 +1,19 @@
 # Paper Viewer – Academic PDF Reader
 
-Paper Viewer is an academic PDF viewer for reading and annotating research
-papers in VS Code. Add highlights and sticky notes, follow citations to arXiv
-or DOI links, and open the same annotated PDF in macOS Preview.
+Read and annotate research papers directly in VS Code.
 
-## Install
+**[Install from the VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=jeffryca.paper-viewer)** · Requires VS Code 1.123 or later.
 
-Paper Viewer requires VS Code 1.123 or later.
+## Quick start
 
-Search for `jeffryca.paper-viewer` in the VS Code Extensions view.
+1. Open a PDF. If it opens in another viewer, choose **Reopen Editor With… → Paper Viewer**.
+2. Select text and press **H** to highlight it or **S** to add a sticky note.
+3. Save annotations to the PDF with **⌘S** on Mac or **Ctrl+S** on Windows and Linux.
 
-From the checkout, build and install the extension with Node.js 20 or later.
+## Features
 
-```sh
-npm ci
-npm run package
-code --install-extension paper-viewer-0.0.2.vsix --force
-```
+### Highlights and sticky notes
 
-You can also select the built file with **Extensions: Install from VSIX…** in
-VS Code. If VS Code was open during installation, save your edits and run
-**Developer: Reload Window**.
-
-## Use it
-
-Open a PDF with **Reopen Editor With… → Paper Viewer** if another editor
-is selected.
-
-- Use **Command–P** or **Ctrl–P** for VS Code Quick Open while reading.
 - Click **Highlight** to toggle automatic highlighting when you select text.
   With the mode off, select text and press **H**, **Control–Command–H** on Mac or
   **Ctrl–Alt–H** on Windows and Linux. Add Shift to toggle the mode. Both
@@ -37,22 +23,32 @@ is selected.
 - **Paper Viewer: Text Highlight Thickness** controls the height of new
   text highlights. It defaults to 80% of the selected text height.
 - Click an existing highlight and use its remove button or press Delete.
-  Save with **Command–S** or **Ctrl–S**.
 - Press **S** on selected text, a selected highlight, or immediately after
   making a highlight to attach a pop-up note. The **Notes** button also works
   with selected text or a highlight. Click the note icon to reopen it.
   With no selection, **Notes** opens the sidebar.
 - Use **Draw** and **Add or edit images** for other annotations.
-- Click a linked citation to open its arXiv page, DOI, or paper URL in your
-  browser. **Option-click** or **Alt-click** to jump to the bibliography.
-  Unresolved citations also jump to the bibliography. The arXiv destination
-  and citation hopping are configurable in VS Code settings.
+
+### Citation navigation
+
+Click a linked citation to open its arXiv page, DOI, or paper URL in your
+browser. **Option-click** or **Alt-click** to jump to the bibliography.
+Unresolved citations also jump to the bibliography. Set your preferred arXiv
+destination in VS Code settings.
 
 Citation hopping supports named LaTeX bibliography links. For a recognizable
 title without a link, it queries arXiv when you click and opens only a unique,
 exact title match. Embedded figures and section links follow PDF navigation.
 
-## macOS Preview compatibility
+### Codex and Claude Code
+
+In a trusted local VS Code window, select PDF text or click a saved highlight.
+Click the Codex or Claude Code icon above it to add an excerpt to that
+extension's chat draft. Paper Viewer automatically includes the paper filename,
+page number, highlighted text, and any attached note. Each icon appears when
+its extension is available. You can add a question and send the draft when ready.
+
+### macOS Preview compatibility
 
 Paper Viewer saves highlights and notes as annotations inside the PDF. Save
 the file in VS Code, then open that same PDF in Preview. Choose
@@ -61,6 +57,21 @@ the file in VS Code, then open that same PDF in Preview. Choose
 You can also open a PDF annotated in Preview, remove its highlights, and
 edit its notes in Paper Viewer. Save the PDF before switching between apps
 so the other viewer can load the latest changes.
+
+<details>
+<summary>Install from source</summary>
+
+With Node.js 20 or later, run these commands from the repository checkout.
+
+```sh
+npm ci
+npm run package
+```
+
+In VS Code, run **Extensions: Install from VSIX…** and select the generated package.
+If VS Code was already open, save your edits and run **Developer: Reload Window**.
+
+</details>
 
 ## Develop
 
